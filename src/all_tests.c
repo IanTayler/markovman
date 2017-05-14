@@ -54,6 +54,9 @@ char *mu_fine_test()
      /* asserting that wrong values are wrong */
      mu_assert("Word.length wasn't set correctly. Wrong passing as right.", wordptr->length != 17);
      mu_assert("Word.wordlist wasn't set correctly. Wrong passing as right.", wordptr->wordlist[0]->length != 1);
+
+     /* free all of our allocated memory */
+     free(wordptr); free(wordptr1); free(wordptr2); free(wordptr3);
      return 0;
  }
 
