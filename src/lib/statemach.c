@@ -19,3 +19,19 @@
  * 
  * \see https://github.com/IanTayler/markovman.git
  */
+
+/**
+ * \struct Word
+ * \brief Struct for representing states in a first order Markov chain.
+ *
+ * The struct consists of:
+ * - wordlist: a pointer to an array of pointers to other Words (the possible follow-ups)
+ * - freqlist: a pointer to an array of integers. Marks the frequency of each item in wordlist.
+ * - length: the length of both the above arrays. 
+ *
+ */
+ typedef struct ThisWord {
+     struct ThisWord **wordlist;
+     int *freqlist;
+     int length;
+ } Word;

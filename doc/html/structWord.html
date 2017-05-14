@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Markovman: Globals</title>
+<title>Markovman: Word Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -43,7 +43,6 @@ $(function() {
 });
 </script>
 <div id="main-nav"></div>
-</div><!-- top -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -58,17 +57,24 @@ $(function() {
 </iframe>
 </div>
 
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">Word Struct Reference</div>  </div>
+</div><!--header-->
 <div class="contents">
-&#160;<ul>
-<li>mu_assert
-: <a class="el" href="minunit_8h.html#aad83ba6b11df552879dd0f0a4ce43407">minunit.h</a>
-</li>
-<li>mu_run_test
-: <a class="el" href="minunit_8h.html#a9c8e76cc15deeca6f9afa206f6caca76">minunit.h</a>
-</li>
-<li>VERSION
-: <a class="el" href="markovman_8c.html#a1c6d5de492ac61ad29aec7aa9a436bbf">markovman.c</a>
-</li>
+
+<p>Struct for representing states in a first order Markov chain.  
+ <a href="structWord.html#details">More...</a></p>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Struct for representing states in a first order Markov chain. </p>
+<p>The struct consists of:</p><ul>
+<li>wordlist: a pointer to an array of pointers to other Words (the possible follow-ups)</li>
+<li>freqlist: a pointer to an array of integers. Marks the frequency of each item in wordlist.</li>
+<li>length: the length of both the above arrays. </li>
+</ul>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
+<li>src/lib/<a class="el" href="statemach_8c.html">statemach.c</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
