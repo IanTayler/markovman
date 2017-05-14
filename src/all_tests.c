@@ -8,6 +8,7 @@
  ************************************************************************************/
  #include <stdio.h>
  #include "minunit.h"
+ #include "statemach.h"
 
 #define PLANNED 1
 
