@@ -46,17 +46,28 @@ char *mu_fine_test()
      Word *wordlist[] = {wordptr1, wordptr2, wordptr3};
      wordptr->wordlist = wordlist;
 
+     /* get our test values (we need to do this now so that we can free
+      * the memory before returning) */
+    int word_length_test    = (wordptr->length == 3);
+    int *word_freqlist_test = (wordptr->freqlist);
+    int word_wordlist_test  = (wordptr->wordlist[0]->length == 2);
+
+    int word_length_test2   = (wordptr->length != 17);
+    int word_wordlist_test2 = (wordptr->wordlist[0]->length != 1);
+
+    /* free all of our allocated memory now, because mu_assert may return */
+     free(wordptr); free(wordptr1); free(wordptr2); free(wordptr3);
+
      /* asserting the values we just set */
-     mu_assert("Word.length wasn't set correctly", wordptr->length == 3);
-     mu_assert("Word.freqlist wasn't set correctly", wordptr->freqlist);
-     mu_assert("Word.wordlist wasn't set correctly", wordptr->wordlist[0]->length == 2);
+     mu_assert("Word.length wasn't set correctly", word_length_test );
+     mu_assert("Word.freqlist wasn't set correctly", word_freqlist_test);
+     mu_assert("Word.wordlist wasn't set correctly", word_wordlist_test);
 
      /* asserting that wrong values are wrong */
-     mu_assert("Word.length wasn't set correctly. Wrong passing as right.", wordptr->length != 17);
-     mu_assert("Word.wordlist wasn't set correctly. Wrong passing as right.", wordptr->wordlist[0]->length != 1);
+     mu_assert("Word.length wasn't set correctly. Wrong passing as right.", word_length_test2);
+     mu_assert("Word.wordlist wasn't set correctly. Wrong passing as right.", word_wordlist_test2);
 
-     /* free all of our allocated memory */
-     free(wordptr); free(wordptr1); free(wordptr2); free(wordptr3);
+     /* If we haven't returned yet, then we're fine */
      return 0;
  }
 
