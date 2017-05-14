@@ -35,18 +35,25 @@
  */
 
  /**
- * \file markovman.c
- * \author Ian G. Tayler
- * \date 5 May 2017 (creation)
- *
- * \brief The main file, where the interface is implemented.
- * 
- * \see https://github.com/IanTayler/markovman.git
- */
+  * \file markovman.c
+  * \author Ian G. Tayler
+  * \date 5 May 2017 (creation)
+  *
+  * \brief The main file, where the interface is implemented.
+  * 
+  * \see https://github.com/IanTayler/markovman.git
+  */
 #include <stdio.h>
 #include "statemach.h"
+
+/**
+ * \def VERSION
+ * \brief String constant holding the current version of Markovman.
+ */
+#define VERSION "0.0.2"
+
 int main (void)
 {
-    printf("I'm the markovman\n");
+    printf("Markovman v%s\n", VERSION);
     return 0;
 }
