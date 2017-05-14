@@ -1,3 +1,6 @@
 doc/latex
 markovman
 tests
+*.gcda
+*.gcno
+*.gcov

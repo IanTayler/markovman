@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-O3 -Wall -std=c99 -pedantic -g
+CFLAGS=-O3 -Wall -std=c99 -pedantic -g -coverage
 PROGRAM=markovman
 
 PREF=src
@@ -27,3 +27,5 @@ doc: $(PROGRAM)
 	cd doc/latex && make
 	cp doc/latex/refman.pdf doc/Reference\ Manual.pdf
 
+clean:
+	rm *.gcno *.gcov *.gcda
