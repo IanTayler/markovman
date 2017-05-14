@@ -15,7 +15,7 @@
 
 char *mu_fine_test()
 {
-    mu_assert("we fine", 1);
+    mu_assert("MinUnit isn't working properly", 1);
     return 0;
 }
 
