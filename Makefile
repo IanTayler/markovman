@@ -14,6 +14,9 @@ $(PROGRAM): $(SOURCES)
 install: $(PROGRAM)
 	sudo cp $(PROGRAM) /usr/bin
 
+uninstall:
+	sudo rm /usr/bin/$(PROGRAM)
+
 TESTFILE=$(PREF)/all_tests.c
 test:
 	$(CC) $(CFLAGS) $(TESTFILE) -o tests -I$(INCLUDE) -L$(LIBR)
