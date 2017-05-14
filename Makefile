@@ -19,7 +19,7 @@ uninstall:
 
 TESTFILE=$(PREF)/all_tests.c
 test:
-	$(CC) $(CFLAGS) $(TESTFILE) -o tests -I$(INCLUDE) -L$(LIBR)
+	$(CC) $(CFLAGS) $(TESTFILE) -o tests -I$(INCLUDE) -I$(LIBR) -L$(LIBR)
 	./tests
 
 doc: $(PROGRAM)

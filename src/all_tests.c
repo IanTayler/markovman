@@ -7,22 +7,63 @@
  * for  Markovman.  It  should be in the main directory, in a file named 'LICENSE'. *
  ************************************************************************************/
  #include <stdio.h>
+ #include <stdlib.h>
  #include "minunit.h"
- #include "statemach.h"
+ #include "statemach.c"
 
-#define PLANNED 1
+#define PLANNED 2
 
  int tests_run = 0;
 
+/*
+ *  TESTING THE UNIT TEST LIBRARY.
+ */
 char *mu_fine_test()
 {
     mu_assert("MinUnit isn't working properly", 1);
     return 0;
 }
 
+/*
+ *  TESTING statemach.c
+ */
+ char *word_basic_allocation_test()
+ {
+     Word *wordptr = (Word*) malloc(sizeof(Word));
+
+     /* allocating friends */
+     Word *wordptr1 = (Word*) malloc(sizeof(Word));
+     wordptr1->length = 2;
+     Word *wordptr2 = (Word*) malloc(sizeof(Word));
+     Word *wordptr3 = (Word*) malloc(sizeof(Word));
+     /* finished allocating friends */
+
+     /* setting values for our Word struct */
+     wordptr->length = 3;
+     int freqlist[] = {4, 3, 3};
+     wordptr->freqlist = freqlist;
+
+     Word *wordlist[] = {wordptr1, wordptr2, wordptr3};
+     wordptr->wordlist = wordlist;
+
+     /* asserting the values we just set */
+     mu_assert("Word.length wasn't set correctly", wordptr->length == 3);
+     mu_assert("Word.freqlist wasn't set correctly", wordptr->freqlist);
+     mu_assert("Word.wordlist wasn't set correctly", wordptr->wordlist[0]->length == 2);
+
+     /* asserting that wrong values are wrong */
+     mu_assert("Word.length wasn't set correctly. Wrong passing as right.", wordptr->length != 17);
+     mu_assert("Word.wordlist wasn't set correctly. Wrong passing as right.", wordptr->wordlist[0]->length != 1);
+     return 0;
+ }
+
 char *all_tests()
 {
+    /* MinUnit tests */
     mu_run_test(mu_fine_test);
+
+    /* lib/statemach.c tests */
+    mu_run_test(word_basic_allocation_test);
     return 0;
 }
 
