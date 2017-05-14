@@ -28,4 +28,4 @@ doc: $(PROGRAM)
 	cp doc/latex/refman.pdf doc/Reference\ Manual.pdf
 
 clean:
-	rm *.gcno *.gcov *.gcda
+	rm *.gcno *.gcov *.gcda markovman tests
