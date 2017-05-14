@@ -8,7 +8,19 @@ SOURCES=$(PREF)/markovman.c
 INCLUDE=$(PREF)/include
 LIBR=$(PREF)/lib
 
-FULLSOURCES=$(eval for coso in $(SOURCES); do echo $(PREF)/$$coso done)
-
 $(PROGRAM): $(SOURCES)
 	$(CC) $(CFLAGS) $(SOURCES) -o $(PROGRAM) -I$(INCLUDE) -L$(LIBR)
+
+install: $(PROGRAM)
+	sudo cp $(PROGRAM) /usr/bin
+
+TESTFILE=$(PREF)/all_tests.c
+test:
+	$(CC) $(CFLAGS) $(TESTFILE) -o tests -I$(INCLUDE) -L$(LIBR)
+	./tests
+
+doc: $(PROGRAM)
+	doxygen
+	cd doc/latex && make
+	cp doc/latex/refman.pdf doc/Reference\ Manual.pdf
+

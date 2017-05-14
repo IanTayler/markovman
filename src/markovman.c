@@ -2,26 +2,22 @@
  * Copyright (c) 2017 by Ian G. Tayler <ian.g.tayler@gmail.com>                     *
  * This file is part of Markovman.                                                  *
  *                                                                                  *
- * Markovman is distributed as free software under the Artistic License 2.0.        *
- * You should have received a copy of the license together with the source files    *
- * for Markovman. It should be in the main directory, in a file named 'LICENSE'.    *
+ * Markovman  is  distributed  as  free  software  under  the Artistic License 2.0. *
+ * You  should  have  received a copy of the license together with the source files *
+ * for  Markovman.  It  should be in the main directory, in a file named 'LICENSE'. *
  ************************************************************************************/
-
- /**
- * \file markovman.c
- * \author Ian G. Tayler
- * \date 5 May 2017 (creation)
+ 
+ /*!
+ * \mainpage
  *
  * \brief Implementation of markov chains for random text generation.
  *
- * ###DESCRIPTION:
+ * \section Description
  * Markovman is a program for random text generation based on markov chains. The
  * generator is trained from a corpus. The only supported format for the corpus is
  * as a text file, with dots '.' separating sentences.
  *
- * This is the main file fo the program, where the (command line) interface is
- * implemented.
- * ###USAGE:
+ * \section Usage
  *  The following is the interface as I plan to implement it, although it hasn't
  * been written yet. The easiest way to use Markovman is to call it together with a corpus-file.
  * \code markovman path/to/corpus.txt \endcode
@@ -34,6 +30,16 @@
  * Another possibility is running the program like the following, which will generate
  * N sentences and close immediately.
  * \code markovman path/to/corpus.txt -n N \endcode 
+ * 
+ * \see https://github.com/IanTayler/markovman.git
+ */
+
+ /**
+ * \file markovman.c
+ * \author Ian G. Tayler
+ * \date 5 May 2017 (creation)
+ *
+ * \brief The main file, where the interface is implemented.
  * 
  * \see https://github.com/IanTayler/markovman.git
  */
