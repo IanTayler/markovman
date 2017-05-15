@@ -7,4 +7,4 @@
  * for  Markovman.  It  should be in the main directory, in a file named 'LICENSE'. *
  ************************************************************************************/
 
-char *get_next_token(FILE *filedesc) {};
+char *get_next_token(FILE *filedesc, char *endsymb) {};

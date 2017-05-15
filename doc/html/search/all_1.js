@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['statemach_2ec',['statemach.c',['../statemach_8c.html',1,'']]],
-  ['statemach_2eh',['statemach.h',['../statemach_8h.html',1,'']]]
+  ['basebuffsize',['BASEBUFFSIZE',['../lexer_8c.html#a95729d1aace4b6c35bd2722ad23908a6',1,'lexer.c']]]
 ];

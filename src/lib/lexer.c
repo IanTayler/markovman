@@ -37,7 +37,7 @@
  * \brief Append a char to a token, growing it if necessary. Return the final size
  * of the token in allocated bytes (_not_ the string length).
  *
- * \param token A pointer to the token to which to append a character.
+ * \param token A pointer to the pointer to the token to which to append a character.
  * \param appc The character to be appended.
  * \param pos The position where the character goes.
  * \param size The initial size of the memory buffer for the token.
@@ -47,7 +47,7 @@
  * \note If the character doesn't fit, the buffer will be grown to the double of
  * its current size.
  */
-size_t append_char(char *token, char appc, int pos, size_t size)
+size_t append_char(char **token, char appc, int pos, size_t size)
 {
     /* Realloc if necessary. */
     if (pos >= size-1) {
@@ -55,16 +55,16 @@ size_t append_char(char *token, char appc, int pos, size_t size)
                           * power-of-two size will come in handy */
         
         /* getting another pointer to check that the operation was successful. */
-        char *newplace = realloc(token, size);
+        char *newplace = realloc(*token, size);
         if (newplace != NULL) {
-            token = newplace;
+            *token = newplace;
         } else { /* this shouldn't have happened!!! */
             fprintf(stderr, "append_char failed to reallocate memory when necessary.\n");
         }
     }
 
     /* Set the character */
-    token[pos] = appc;
+    (*token)[pos] = appc;
 
     /* return the current size */
     return size;
@@ -98,27 +98,14 @@ char *get_next_token(FILE *filedesc, char *endsymb)
     while ((c = getc(filedesc)) != EOF) {
         /* we're looking for a token-ender */
         switch (c) {
-            /* this is the most brutal token-ender. return current token if we have
-             * one. Else, return 0, and set endsymb to 0. */
+            /* these are the token-enders. Append a 0 to the token and
+             * return */
             case 0:
-                if (tokenpos) {
-                    append_char(token, 0, tokenpos, current_size);
-                    *endsymb = 0;
-                    return token;
-                }
-                free(token);
-                *endsymb = 0;
-                return 0;
-                break; /* just to make the code clearer. */
-            
-            /* The following cases are token-enders and punctuation. */
-            /* do note the conscious fallthrough */
+            case ' ':
             case ',':
             case '.':
             case '!':
             case '?':
-            case '¡':
-            case '¿':
             case ':':
             case ';':
             case '-':
@@ -126,17 +113,17 @@ char *get_next_token(FILE *filedesc, char *endsymb)
             case ')':
             case '"':
                 if (tokenpos) {
-                    append_char(token, c, tokenpos, current_size);
+                    append_char(&token, 0, tokenpos, current_size);
                     *endsymb = c;
                     return token;
                 }
                 free(token);
                 *endsymb = 0;
                 return 0;
-                break; /* again, just being explicit here */
+                break; /* just being explicit here */
 
             default:
-                current_size = append_char(token, c, tokenpos, current_size);
+                current_size = append_char(&token, c, tokenpos, current_size);
                 tokenpos++;
         }
     }

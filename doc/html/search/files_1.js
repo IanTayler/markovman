@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['statemach_2ec',['statemach.c',['../statemach_8c.html',1,'']]],
-  ['statemach_2eh',['statemach.h',['../statemach_8h.html',1,'']]]
+  ['markovman_2ec',['markovman.c',['../markovman_8c.html',1,'']]],
+  ['minunit_2eh',['minunit.h',['../minunit_8h.html',1,'']]]
 ];
