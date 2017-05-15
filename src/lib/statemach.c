@@ -7,8 +7,8 @@
  * for  Markovman.  It  should be in the main directory, in a file named 'LICENSE'. *
  ************************************************************************************/
 
-  /**
- * \file statemach.c
+/**
+ * \file lib/statemach.c
  * \author Ian G. Tayler
  * \date 5 May 2017 (creation)
  *

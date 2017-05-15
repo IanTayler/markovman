@@ -5,7 +5,7 @@
  * WARRANTY.                                             *
  *********************************************************/
 
-/** \file: minunit.h 
+/** \file: include/minunit.h 
  * \author Jera Design
  * \date Unknown
  *
