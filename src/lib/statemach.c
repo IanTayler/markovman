@@ -6,7 +6,9 @@
  * You  should  have  received a copy of the license together with the source files *
  * for  Markovman.  It  should be in the main directory, in a file named 'LICENSE'. *
  ************************************************************************************/
-
+#include <stdio.h>
+#include <stdlib.h>
+#include "lexer.h"
 /**
  * \file lib/statemach.c
  * \author Ian G. Tayler
@@ -31,7 +33,7 @@
  *
  */
 typedef struct ThisWord {
-    struct ThisWord **wordlist;
-    int *freqlist;
     int length;
+    int *freqlist;
+    struct ThisWord **wordlist;
 } Word;

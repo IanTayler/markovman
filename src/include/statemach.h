@@ -7,4 +7,8 @@
  * for  Markovman.  It  should be in the main directory, in a file named 'LICENSE'. *
  ************************************************************************************/
 
-typedef struct ThisWord Word;
+typedef struct ThisWord {
+    int length;
+    int *freqlist;
+    struct ThisWord **wordlist;
+} Word;

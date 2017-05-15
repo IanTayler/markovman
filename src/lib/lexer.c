@@ -22,6 +22,7 @@
  * \see https://github.com/IanTayler/markovman.git
  */
 #include <stdio.h>
+#include <stdlib.h>
 
 /**
  * \def BASEBUFFSIZE

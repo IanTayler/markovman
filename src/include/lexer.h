@@ -6,5 +6,5 @@
  * You  should  have  received a copy of the license together with the source files *
  * for  Markovman.  It  should be in the main directory, in a file named 'LICENSE'. *
  ************************************************************************************/
-
-char *get_next_token(FILE *filedesc, char *endsymb) {};
+size_t append_char(char **token, char appc, int pos, size_t size);
+char *get_next_token(FILE *filedesc, char *endsymb);

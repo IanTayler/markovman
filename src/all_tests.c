@@ -10,8 +10,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "minunit.h"
-#include "statemach.c"
-#include "lexer.c"
+#include "statemach.h"
+#include "lexer.h"
 
 #define PLANNED 4
 

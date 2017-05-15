@@ -5,13 +5,15 @@ CFLAGS=-O3 -Wall -std=c99 -pedantic -g
 PROGRAM=markovman
 
 PREF=src
-SOURCES=$(PREF)/markovman.c
 
 INCLUDE=$(PREF)/include
 LIBR=$(PREF)/lib
 
+SOURCESLIBS=$(LIBR)/statemach.c $(LIBR)/lexer.c
+SOURCES=$(PREF)/markovman.c
+
 $(PROGRAM): $(SOURCES)
-	$(CC) $(CFLAGS) $(SOURCES) -o $(PROGRAM) -I$(INCLUDE) -L$(LIBR)
+	$(CC) $(CFLAGS) $(SOURCES) -o $(PROGRAM) -I$(INCLUDE)
 
 install: $(PROGRAM)
 	sudo cp $(PROGRAM) /usr/bin
@@ -21,7 +23,7 @@ uninstall:
 
 TESTFILE=$(PREF)/all_tests.c
 test:
-	$(CC) $(CFLAGS) $(TESTFILE) -o tests -I$(INCLUDE) -I$(LIBR) -L$(LIBR)
+	$(CC) $(CFLAGS) $(TESTFILE) $(SOURCESLIBS) -o tests -I$(INCLUDE)
 	./tests
 
 doc: $(PROGRAM)
