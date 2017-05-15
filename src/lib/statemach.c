@@ -30,9 +30,8 @@
  * - length: the length of both the above arrays. 
  *
  */
- typedef struct ThisWord {
-     struct ThisWord **wordlist;
-     int *freqlist;
-     int length;
- } Word;
- 
+typedef struct ThisWord {
+    struct ThisWord **wordlist;
+    int *freqlist;
+    int length;
+} Word;
