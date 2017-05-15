@@ -35,3 +35,4 @@
      int *freqlist;
      int length;
  } Word;
+ 

@@ -1,5 +1,7 @@
-CC=gcc
-CFLAGS=-O3 -Wall -std=c99 -pedantic -g -coverage
+ifndef $(CC)
+	CC=gcc
+endif
+CFLAGS=-O3 -Wall -std=c99 -pedantic -g
 PROGRAM=markovman
 
 PREF=src
@@ -28,4 +30,4 @@ doc: $(PROGRAM)
 	cp doc/latex/refman.pdf doc/Reference\ Manual.pdf
 
 clean:
-	rm *.gcno *.gcov *.gcda markovman tests
+	rm -f *.gcno *.gcov *.gcda markovman tests
