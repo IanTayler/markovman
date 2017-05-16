@@ -27,13 +27,26 @@
  * \brief Struct for representing states in a first order Markov chain.
  *
  * The struct consists of:
- * - wordlist: a pointer to an array of pointers to other Words (the possible follow-ups)
- * - freqlist: a pointer to an array of integers. Marks the frequency of each item in wordlist.
- * - length: the length of both the above arrays. 
+ * - token: a pointer to the string representation of the word.
+ * - freqlist: a pointer to an array of integers. Marks the frequency of each item in a corresponding wordlist.
  *
  */
 typedef struct ThisWord {
-    int length;
+    char *token;
     int *freqlist;
-    struct ThisWord **wordlist;
 } Word;
+
+/**
+ * \struct Markov
+ * \brief Struct that holds all the information relevant to a markov chain.
+ *
+ * The struct consists of:
+ * - initlength: the number of words used at the beginning of a sentence.
+ * - initpos: an array with all positions of the wordlist that hold initial words.
+ * - wordlist: a list with all the words.
+ */
+typedef struct ThisMarkov {
+    int initlength;
+    int *initpos;
+    Word *wordlist;
+} Markov;

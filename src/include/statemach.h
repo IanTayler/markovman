@@ -8,7 +8,12 @@
  ************************************************************************************/
 
 typedef struct ThisWord {
-    int length;
+    char *token;
     int *freqlist;
-    struct ThisWord **wordlist;
 } Word;
+
+typedef struct ThisMarkov {
+    int initlength;
+    int *initpos;
+    Word *wordlist;
+} Markov;
