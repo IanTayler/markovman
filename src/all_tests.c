@@ -104,7 +104,7 @@ char *lexer_test()
     FILE *fd = fopen("resources/testfile1.txt", "r");
     char endchar;
 
-    mu_assert("Couldn't open file in lexer_test", fd != NULL);
+    mu_assert("Couldn't open file in lexer_test\n", fd != NULL);
 
     char *ftoken = get_next_token(fd, &endchar);
 
@@ -120,6 +120,9 @@ char *lexer_test()
     free(stoken);
     mu_assert("Didn't correctly detect the second end symbol in lexer_test", endchar == ',');
 
+    if (fclose(fd) != 0) {
+        fprintf(stderr, "Couldn't properly close file in lexer_test\n");
+    }
     return 0;
 }
 
