@@ -33,42 +33,16 @@ char *word_basic_allocation_test()
 {
     Word *wordptr = (Word*) malloc(sizeof(Word));
 
-    /* allocating friends */
-    Word *wordptr1 = (Word*) malloc(sizeof(Word));
-    wordptr1->length = 2;
-    Word *wordptr2 = (Word*) malloc(sizeof(Word));
-    Word *wordptr3 = (Word*) malloc(sizeof(Word));
-    /* finished allocating friends */
+    wordptr->token = "Walterman";
+    wordptr->freqlist = malloc(sizeof(int) * 4);
 
-    /* setting values for our Word struct */
-    wordptr->length = 3;
-    int freqlist[] = {4, 3, 3};
-    wordptr->freqlist = freqlist;
+    int temparray[4] = {23, 17, 65, 34};
+    memcpy(wordptr->freqlist, temparray, sizeof(int) * 4);
 
-    Word *wordlist[] = {wordptr1, wordptr2, wordptr3};
-    wordptr->wordlist = wordlist;
+    mu_assert("Allocation of Word didn't work", strcmp("Walterman", wordptr->token) == 0);
+    mu_assert("Allocation of Word's freqlist didn't work", wordptr->freqlist[2] == 65);
 
-    /* get our test values (we need to do this now so that we can free
-     * the memory before returning) */
-   int word_length_test    = (wordptr->length == 3);
-   int *word_freqlist_test = (wordptr->freqlist);
-   int word_wordlist_test  = (wordptr->wordlist[0]->length == 2);
-
-   int word_length_test2   = (wordptr->length != 17);
-   int word_wordlist_test2 = (wordptr->wordlist[0]->length != 1);
-
-   /* free all of our allocated memory now, because mu_assert may return */
-   free(wordptr); free(wordptr1); free(wordptr2); free(wordptr3);
-
-   /* asserting the values we just set */
-   mu_assert("Word.length wasn't set correctly", word_length_test );
-   mu_assert("Word.freqlist wasn't set correctly", word_freqlist_test);
-   mu_assert("Word.wordlist wasn't set correctly", word_wordlist_test);
-
-   /* asserting that wrong values are wrong */
-   mu_assert("Word.length wasn't set correctly. Wrong passing as right.", word_length_test2);
-   mu_assert("Word.wordlist wasn't set correctly. Wrong passing as right.", word_wordlist_test2);
-
+    free(wordptr);
    /* If we haven't returned yet, then we're fine */
    return 0;
 }
