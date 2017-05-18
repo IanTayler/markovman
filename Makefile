@@ -12,7 +12,9 @@ LIBR=$(PREF)/lib
 SOURCESLIBS=$(LIBR)/statemach.c $(LIBR)/lexer.c
 SOURCES=$(PREF)/markovman.c
 
-$(PROGRAM): $(SOURCES)
+.PHONY: install uninstall test doc clean
+
+$(PROGRAM): $(SOURCES) $(SOURCESLIBS)
 	$(CC) $(CFLAGS) $(SOURCES) -o $(PROGRAM) -I$(INCLUDE)
 
 install: $(PROGRAM)
