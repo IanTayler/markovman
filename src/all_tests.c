@@ -39,8 +39,16 @@ char *word_basic_allocation_test()
     int temparray[4] = {23, 17, 65, 34};
     memcpy(wordptr->freqlist, temparray, sizeof(int) * 4);
 
-    mu_assert("Allocation of Word didn't work", strcmp("Walterman", wordptr->token) == 0);
-    mu_assert("Allocation of Word's freqlist didn't work", wordptr->freqlist[2] == 65);
+    mu_assert_running("Allocation of Word didn't work", strcmp("Walterman", wordptr->token) == 0,\
+                      {
+                          free(wordptr->freqlist);
+                          free(wordptr);
+                      });
+    mu_assert_running("Allocation of Word's freqlist didn't work", wordptr->freqlist[2] == 65,
+                      {
+                          free(wordptr->freqlist);
+                          free(wordptr);
+                      });
 
     free(wordptr);
    /* If we haven't returned yet, then we're fine */
@@ -59,17 +67,10 @@ char *append_test()
     curr_size = append_char(&dynstr, 'K', 1, curr_size);
     curr_size = append_char(&dynstr, 0, 2, curr_size);
 
-    /* we copy it to a static string so that we can free the pointer safely 
-     * before asserting */
-    char statstr[4];
-    for (int i = 0; i < 3; i++) {
-        statstr[i] = dynstr[i];
-    }
-    free(dynstr);
-    mu_assert("Dynstr didn't grow as expected", curr_size == 4);
-    mu_assert("Characters set incorrectly in append_test", statstr[0] == 'O' &&
-                                                           statstr[1] == 'K' &&
-                                                           statstr[2] == 0);
+    mu_assert_freeing("Dynstr didn't grow as expected", curr_size == 4, dynstr);
+    mu_assert_freeing("Characters set incorrectly in append_test",
+                      dynstr[0] == 'O' && dynstr[1] == 'K' && dynstr[2] == 0,
+                      dynstr);
     return 0;
 }
 
@@ -83,13 +84,13 @@ char *lexer_test()
     char *ftoken = get_next_token(fd, &endchar);
 
     /* it's a bit hard being safe in this one. */
-    mu_assert("Got the wrong token in lexer_test", strcmp(ftoken, "John") == 0);
+    mu_assert_freeing("Got the wrong token in lexer_test", strcmp(ftoken, "John") == 0, ftoken);
     
     free(ftoken);
     mu_assert("Didn't correctly detect the end symbol in lexer_test", endchar == ' ');
 
     char *stoken = get_next_token(fd, &endchar);
-    mu_assert("Got the wrong second token in lexer_test", strcmp(stoken, "Lennon") == 0);
+    mu_assert_freeing("Got the wrong second token in lexer_test", strcmp(stoken, "Lennon") == 0, stoken);
 
     free(stoken);
     mu_assert("Didn't correctly detect the second end symbol in lexer_test", endchar == ',');
