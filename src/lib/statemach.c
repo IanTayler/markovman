@@ -9,6 +9,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "lexer.h"
+
+/**
+ * \def INITWORD
+ * \brief A constant that's used to mark that there is no 'previous' word.
+ *
+ * When we're inducing a markov chain, we need to save in a variable an int that
+ * marks where in the wordlist we can find a pointer to the previous word. When
+ * we're on the first word, we save INITWORD in that variable instead, which is
+ * defined to be different from all natural numbers.
+ */
+#define INITWORD -1
 /**
  * \file lib/statemach.c
  * \author Ian G. Tayler
@@ -50,3 +61,11 @@ typedef struct ThisMarkov {
     int *initpos;
     Word *wordlist;
 } Markov;
+
+/* BUILDING THE MARKOV INDUCER. */
+
+/*Markov *induce_markov(FILE *filedesc)
+{
+    Markov *mrk = malloc(sizeof(Markov));
+    mrk->wordlist = malloc();
+}*/

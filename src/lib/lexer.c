@@ -43,7 +43,7 @@
  * \param pos The position where the character goes.
  * \param size The initial size of the memory buffer for the token.
  *
- * \ret The final size of the memory buffer for the token.
+ * \return The final size of the memory buffer for the token.
  *
  * \note If the character doesn't fit, the buffer will be grown to the double of
  * its current size.
@@ -79,7 +79,7 @@ size_t append_char(char **token, char appc, int pos, size_t size)
  * token.
  * \param endsymb A pointer to a character, which will be written with whatever
  * symbol was the one that made us finish the token. This only works
- * \ret A pointer to a dynamically allocated char token (must free() after using!)
+ * \return A pointer to a dynamically allocated char token (must free() after using!)
  */
 char *get_next_token(FILE *filedesc, char *endsymb)
 {

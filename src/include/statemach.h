@@ -17,3 +17,5 @@ typedef struct ThisMarkov {
     int *initpos;
     Word *wordlist;
 } Markov;
+
+Markov *induce_markov(FILE *filedesc);
