@@ -71,7 +71,7 @@
 #define mu_assert_freeing(message, test, pointer) do { if (!(test)) { free(pointer); return message; } } while (0)
 
 /** \def mu_assert_running
- * \brief Macro to assert equality in a unit test, freeing two pointers.
+ * \brief Macro to assert equality in a unit test, running a block if the test fails.
  *
  * Like #mu_assert_freeing(), but running a full block of code instead
  * of just freeing a pointer before returning.

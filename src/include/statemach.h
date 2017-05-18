@@ -9,7 +9,7 @@
 #ifndef EXP_STATEMACH_H
 #define EXP_STATEMACH_H
  /**
- * \file lib/statemach.h
+ * \file include/statemach.h
  * \author Ian G. Tayler
  * \date 13 May 2017 (creation)
  *

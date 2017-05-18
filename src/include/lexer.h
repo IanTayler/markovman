@@ -9,7 +9,7 @@
 #ifndef EXP_LEXER_H
 #define EXP_LEXER_H
  /**
- * \file lib/lexer.h
+ * \file include/lexer.h
  * \author Ian G. Tayler
  * \date 14 May 2017 (creation)
  *

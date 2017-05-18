@@ -37,7 +37,7 @@
  /**
   * \file markovman.c
   * \author Ian G. Tayler
-  * \date 5 May 2017 (creation)
+  * \date 13 May 2017 (creation)
   *
   * \brief The main file, where the interface is implemented.
   * 

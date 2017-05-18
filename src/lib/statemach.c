@@ -12,9 +12,11 @@
 #include "statemach.h"
 
  /**
- * \file lib/statemach.h
+ * \file lib/statemach.c
  * \author Ian G. Tayler
  * \date 13 May 2017 (creation)
+ *
+ * \brief Implementation of state machines.
  *
  * This is the file where all the important definitions are. We define the struct
  * 'Word' and a few functions for handling it. We also define the 'Markov' struct.
