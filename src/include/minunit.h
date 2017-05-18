@@ -4,7 +4,8 @@
  * THE UNDERSTANDING  THAT IT COMES  WITH  ABSOLUTELY NO *
  * WARRANTY.                                             *
  *********************************************************/
-
+#ifndef EXP_MINUINT_H
+#define EXP_MINUINT_H
 /** \file: include/minunit.h 
  * \author Jera Design
  * \date Unknown
@@ -50,3 +51,6 @@
  * \see mu_run_test
  */
  extern int tests_run;
+
+ #endif
+ 

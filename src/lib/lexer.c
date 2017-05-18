@@ -19,10 +19,14 @@
  * of a token. Special characters are then added to the token list as another
  * stand-alone token.
  * 
+ * \note This file has the documentation for all _internal_ (i.e. unexported)
+ * functions and structs. For the documentation of the API, see lexer.h
+ *
  * \see https://github.com/IanTayler/markovman.git
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include "lexer.h"
 
 /**
  * \def BASEBUFFSIZE
@@ -33,7 +37,7 @@
  */
 #define BASEBUFFSIZE 8 /* Preferably set it to a power of 2. */
 
-/**
+ /**
  * \fn size_t append_char(char *token, char appc, int pos, size_t size)
  * \brief Append a char to a token, growing it if necessary. Return the final size
  * of the token in allocated bytes (_not_ the string length).
@@ -71,16 +75,6 @@ size_t append_char(char **token, char appc, int pos, size_t size)
     return size;
 }
 
-/**
- * \fn char *get_next_token(FILE *filedesc)
- * \brief A function to read the next token from a file.
- *
- * \param filedesc A pointer to the file handler from which we're reading the
- * token.
- * \param endsymb A pointer to a character, which will be written with whatever
- * symbol was the one that made us finish the token. This only works
- * \return A pointer to a dynamically allocated char token (must free() after using!)
- */
 char *get_next_token(FILE *filedesc, char *endsymb)
 {
     /* get your pointer to allocated memory for your token */

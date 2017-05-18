@@ -9,6 +9,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "lexer.h"
+#include "statemach.h"
+
+ /**
+ * \file lib/statemach.h
+ * \author Ian G. Tayler
+ * \date 13 May 2017 (creation)
+ *
+ * This is the file where all the important definitions are. We define the struct
+ * 'Word' and a few functions for handling it. We also define the 'Markov' struct.
+ * That covers most of the program's logic.
+ *
+ * \note This file has the documentation for all _internal_ (i.e. unexported)
+ * functions and structs. For the documentation of the API, see statemach.h
+ */
 
 /**
  * \def INITWORD
@@ -21,51 +35,35 @@
  */
 #define INITWORD -1
 /**
- * \file lib/statemach.c
- * \author Ian G. Tayler
- * \date 5 May 2017 (creation)
+ * \def BASELEXSIZE
+ * \brief A constant that defines how initial allocation of words will be.
  *
- * \brief File implementing state machines.
- *
- * This is the file where all the action happens. We define the struct 'Word' and
- * a few functions for handling it. That covers most of the program's logic.
- * 
- * \see https://github.com/IanTayler/markovman.git
+ * It should normally be set to a power of 2 to optimize malloc and realloc in
+ * certain implementations.
  */
-
+#define BASELEXSIZE 512
 /**
- * \struct Word
- * \brief Struct for representing states in a first order Markov chain.
+ * \def BASEINITWORDS
+ * \brief A constant that defines how many int-s we will allocate initially
+ * for our list of initial words.
  *
- * The struct consists of:
- * - token: a pointer to the string representation of the word.
- * - freqlist: a pointer to an array of integers. Marks the frequency of each item in a corresponding wordlist.
+ * A constant that defines how many int-s we will allocate initially for our
+ * list of position in the wordlist array that hold pointers to words that
+ * have appeared at the beginning of a sentence.
  *
+ * It should normally be set to a power of 2 to optimize malloc and realloc in
+ * certain implementations.
  */
-typedef struct ThisWord {
-    char *token;
-    int *freqlist;
-} Word;
+#define BASEINITWORDS 32
 
-/**
- * \struct Markov
- * \brief Struct that holds all the information relevant to a markov chain.
- *
- * The struct consists of:
- * - initlength: the number of words used at the beginning of a sentence.
- * - initpos: an array with all positions of the wordlist that hold initial words.
- * - wordlist: a list with all the words.
- */
-typedef struct ThisMarkov {
-    int initlength;
-    int *initpos;
-    Word *wordlist;
-} Markov;
 
 /* BUILDING THE MARKOV INDUCER. */
 
 /*Markov *induce_markov(FILE *filedesc)
 {
     Markov *mrk = malloc(sizeof(Markov));
-    mrk->wordlist = malloc();
+    
+    mrk->wordlist = malloc(sizeof(Word) * BASELEXSIZE);
+    mrk->initpos = malloc(sizeof(int) * BASEINITWORDS);
+    mrk->initlength = 0;
 }*/
