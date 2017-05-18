@@ -10,12 +10,12 @@ INCLUDE=$(PREF)/include
 LIBR=$(PREF)/lib
 
 SOURCESLIBS=$(LIBR)/statemach.c $(LIBR)/lexer.c
-SOURCES=$(PREF)/markovman.c
+SOURCES=$(PREF)/markovman.c $(SOURCESLIBS)
 
 .PHONY: install uninstall test doc clean
 
-$(PROGRAM): $(SOURCES) $(SOURCESLIBS)
-	$(CC) $(CFLAGS) $(SOURCES) -o $(PROGRAM) -I$(INCLUDE)
+$(PROGRAM): $(SOURCES)
+	$(CC) $(CFLAGS) $(SOURCES) -o $(PROGRAM) -I$(INCLUDE) -L$(LIBR)
 
 install: $(PROGRAM)
 	sudo cp $(PROGRAM) /usr/bin
@@ -24,8 +24,9 @@ uninstall:
 	sudo rm /usr/bin/$(PROGRAM)
 
 TESTFILE=$(PREF)/all_tests.c
+TESTINCLUDE=$(PREF)/test-include
 test:
-	$(CC) $(CFLAGS) $(TESTFILE) -o tests -I$(INCLUDE) -I$(LIBR)
+	$(CC) $(CFLAGS) $(TESTFILE) $(SOURCESLIBS) -o tests -I$(TESTINCLUDE) -I$(INCLUDE) -L$(LIBR)
 	./tests
 
 doc: $(PROGRAM)

@@ -65,5 +65,11 @@
     
     mrk->wordlist = malloc(sizeof(Word) * BASELEXSIZE);
     mrk->initpos = malloc(sizeof(int) * BASEINITWORDS);
+    int initpos_size = BASEINITWORDS;
     mrk->initlength = 0;
+
+    char endsymb;
+    while (char *tok = get_next_token(filedesc, &endsymb)) {
+
+    }
 }*/
