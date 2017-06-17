@@ -8,6 +8,7 @@
  ************************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "lexer.h"
 #include "statemach.h"
 
@@ -82,9 +83,9 @@ int append_int(int **arr, int appi, int pos, int size)
                           * power-of-two size will come in handy */
         
         /* getting another pointer to check that the operation was successful. */
-        char *newplace = realloc(*arr, sizeof(int) * size);
+        int *newplace = realloc(*arr, sizeof(int) * size);
         if (newplace != NULL) {
-            *token = newplace;
+            *arr = newplace;
         } else { /* this shouldn't have happened!!! */
             fprintf(stderr, "append_int failed to reallocate memory when necessary.\n");
         }
@@ -120,9 +121,9 @@ int append_Word(Word ***arr, Word *appw, int pos, int size)
                           * power-of-two size will come in handy */
         
         /* getting another pointer to check that the operation was successful. */
-        char *newplace = realloc(*arr, sizeof(Word) * size);
+        Word **newplace = realloc(*arr, sizeof(Word*) * size);
         if (newplace != NULL) {
-            *token = newplace;
+            *arr = newplace;
         } else { /* this shouldn't have happened!!! */
             fprintf(stderr, "append_Word failed to reallocate memory when necessary.\n");
         }
@@ -258,7 +259,8 @@ Markov *induce_markov(FILE *filedesc)
     
     /* We do two passes. The first one gets the word-list, the other
        sets all word transitions. */
-    while (((char *tok = get_next_token(filedesc, &endsymb)) != NULL) || endsymb != EOF) {
+       char *tok;
+    while (((tok = get_next_token(filedesc, &endsymb)) != NULL) || endsymb != EOF) {
         if (findstr(mrk->wordlist, mrk->lengthwl, tok) >= 0) {
             free(tok);
         } else {
@@ -289,5 +291,10 @@ Markov *induce_markov(FILE *filedesc)
 
     /* rewind the file. We will make another pass */
     rewind(filedesc);
-        
+
+    /* initialize to zero and to the correct size all the word's freqlists */
+    for (int i = 0; i < mrk->lengthwl; i++) {
+
+    }
+    return mrk;
 }
