@@ -44,16 +44,32 @@
   * \see https://github.com/IanTayler/markovman.git
   */
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include "statemach.h"
 
 /**
  * \def VERSION
  * \brief String constant holding the current version of Markovman.
  */
-#define VERSION "0.4.0"
+#define VERSION "0.5.0"
 
-int main (void)
+int main (int argc, char **argv)
 {
+    srand(time(NULL));
     printf("Markovman v%s\n", VERSION);
+
+    FILE *fd = fopen("resources/testfile3.txt", "r");
+    Markov *markovman = induce_markov(fd);
+    fclose(fd);
+
+    char *str;
+    for (int i = 0; i < 20; i++) {
+        str = generate_sentence(markovman);
+        printf("%s\n", str);
+
+        free(str);
+    }
+    free_Markov(markovman);
     return 0;
 }

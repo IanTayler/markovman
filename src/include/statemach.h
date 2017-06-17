@@ -89,4 +89,14 @@ Markov *induce_markov(FILE *filedesc);
  */
 void free_Markov(Markov *m);
 
+/**
+ * \fn char *generate_sentence(Markov *m)
+ *
+ * \brief Generate a sentence from a Markov chain.
+ *
+ * \param m A pointer to a Markov.
+ * \return A pointer to a dynamically allocated string.
+ */
+char *generate_sentence(Markov *m);
+
 #endif

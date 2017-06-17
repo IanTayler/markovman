@@ -96,6 +96,7 @@ char *get_next_token(FILE *filedesc, char *endsymb)
             /* these are the token-enders. Append a 0 to the token and
              * return */
             case 0:
+            case '\n':
             case ' ':
             case ',':
             case '.':

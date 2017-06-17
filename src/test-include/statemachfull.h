@@ -32,4 +32,6 @@ Markov *induce_markov(FILE *filedesc);
 
 void free_Markov(Markov *m);
 
+char *generate_sentence(Markov *m);
+
 #endif

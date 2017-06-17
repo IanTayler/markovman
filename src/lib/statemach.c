@@ -58,6 +58,17 @@
  * certain implementations.
  */
 #define BASEINITWORDS 32
+/**
+ * \def BASESENTENCELENGTH
+ * \brief A constant for the initial size for the buffer for sentence
+ * generation.
+ *
+ * A constant for the initial size for the buffer for sentence
+ * generation.
+ *
+ * It should normally be set to a power of 2 to optimize malloc and realloc.
+ */
+#define BASESENTENCESIZE 256
 
 /**
  * \fn int finalsymb(char symb)
@@ -288,11 +299,11 @@ Markov *induce_markov(FILE *filedesc)
             free(tok);
         } else {
             mrk->sizewl = append_Word(
-                            &(mrk->wordlist),
-                            new_Word(tok),
-                            mrk->lengthwl,
-                            mrk->sizewl
-                          );
+                &(mrk->wordlist),
+                new_Word(tok),
+                mrk->lengthwl,
+                mrk->sizewl
+            );
             mrk->lengthwl++;
         }
 
@@ -300,11 +311,11 @@ Markov *induce_markov(FILE *filedesc)
             /* do nothing */
         } else {
             mrk->sizewl = append_Word(
-                            &(mrk->wordlist),
-                            new_endsymb(endsymb),
-                            mrk->lengthwl,
-                            mrk->sizewl
-                          );
+                &(mrk->wordlist),
+                new_endsymb(endsymb),
+                mrk->lengthwl,
+                mrk->sizewl
+            );
             mrk->lengthwl++;
 
             symbols[symbols_len] = endsymb;
@@ -346,11 +357,11 @@ Markov *induce_markov(FILE *filedesc)
            seperate list of words. */
         if (lastword == INITWORD) {
             mrk->sizeip = append_int(
-                            &(mrk->initpos),
-                            wordplace,
-                            mrk->lengthip,
-                            mrk->sizeip
-                          );
+                &(mrk->initpos),
+                wordplace,
+                mrk->lengthip,
+                mrk->sizeip
+            );
             
             mrk->lengthip++;
         } else { /* non-initial words */
@@ -387,4 +398,136 @@ void free_Markov(Markov *m)
     }
     free(m->wordlist);
     free(m);
+}
+
+/**
+ * \fn int randto(int r)
+ * \brief Function to get random int <= r.
+ *
+ * \param r Maximum number
+ *
+ * \return a random int between 0 and r.
+ * \note This should give a slightly better distibuted result
+ * than rand() % r.
+ */
+int randto(int r)
+{
+    if (r == 0)
+        return 0;
+    int x;
+    do {
+        x = rand();
+    } while (x >= r * (int)(RAND_MAX / r));
+    return x / (int)(RAND_MAX / r);
+}
+
+/**
+ * \fn int write_string(char **s, char *apps, int pos, int size)
+ * \brief Fast concatenation of strings.
+ *
+ * \param s A pointer to the initial string.
+ * \param appi The string to concat.
+ * \param pos A pointer to an int marking the position where the second
+ * string goes.
+ * \param size The initial size of the memory buffer.
+ *
+ * \return The final size of the memory buffer.
+ *
+ * \note If the int doesn't fit, the buffer will be grown to the double of
+ * its current size.
+ */
+int write_string(char **s, char *apps, int *pos, int size)
+{
+    for (int i = 0; apps[i]; i++) {
+        if (*pos >= size-1) {
+            size = size * 2; /* This could be different. I'm assuming buffers with a
+                                power-of-two size will come in handy */
+            
+            /* getting another pointer to check that the operation was successful. */
+            char *newplace = realloc(*s, sizeof(char) * size);
+            if (newplace != NULL) {
+                *s = newplace;
+            } else { /* this shouldn't have happened!!! */
+                fprintf(stderr, "write_string failed to reallocate memory when necessary.\n");
+            }
+        }
+        /* finally appending */
+        (*s)[*pos] = apps[i];
+        (*pos)++;
+    }
+    /* add the terminator */
+    (*s)[*pos] = 0;
+
+    /* now returning */
+    return size;
+}
+
+/**
+ * \fn int sumfreqs(Markov *m)
+ * \brief Sum the values of the freqlist of a word
+ * in a Markov.
+ *
+ * \param m A Markov.
+ * \param wordpos The Word's position in the Markov's
+ * wordlist.
+ * \return The sum.
+ */
+int sumfreqs(Markov *m, int wordpos)
+{
+    int retv = 0;
+    int *fl = m->wordlist[wordpos]->freqlist;
+    for (int i = 0; i < m->lengthwl; i++) {
+        retv += fl[i];
+    }
+    return retv;
+}
+
+char *generate_sentence(Markov *m)
+{
+    char *sent = malloc(sizeof(char) * BASESENTENCESIZE);
+    sent[0] = 0;
+    int sizesent = BASESENTENCESIZE;
+    int lengthsent = 0;
+
+    int lastword = INITWORD;
+    do {
+        if (lastword == INITWORD) {
+            int place = randto(m->lengthip - 1);
+            sizesent = write_string(
+                &sent,
+                m->wordlist[m->initpos[place]]->token,
+                &lengthsent,
+                sizesent
+            );
+            lastword = m->initpos[place];
+        } else {
+            int freqssize = sumfreqs(m, lastword);
+            int rnum = randto(freqssize - 1);
+            
+            int pos = -1;
+            for (; rnum >= 0; pos++) {
+                rnum -= m->wordlist[lastword]->freqlist[pos+1];
+            }
+
+            if (!(m->wordlist[pos]->isendsymb)) {
+                sizesent = write_string(
+                    &sent,
+                    " ",
+                    &lengthsent,
+                    sizesent
+                );
+            }
+
+            sizesent = write_string(
+                &sent,
+                m->wordlist[pos]->token,
+                &lengthsent,
+                sizesent
+            );
+
+            lastword = pos;
+        }
+    } while (!finalsymb(sent[lengthsent-1]));
+
+    return sent;
 }
