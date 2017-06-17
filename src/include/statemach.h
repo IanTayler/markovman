@@ -30,11 +30,13 @@
  * \brief Struct for representing states in a first order Markov chain.
  *
  * The struct consists of:
+ * - isendsymb: pseudo-boolean. True for punctuation symbols.
  * - token: a pointer to the string representation of the word.
  * - freqlist: a pointer to an array of integers. Marks the frequency of each item in a corresponding wordlist.
  *
  */
 typedef struct ThisWord {
+    int isendsymb;
     char *token;
     int *freqlist;
 } Word;
@@ -44,14 +46,20 @@ typedef struct ThisWord {
  * \brief Struct that holds all the information relevant to a markov chain.
  *
  * The struct consists of:
- * - initlength: the number of words used at the beginning of a sentence.
+ * - lengthip: the number of words used at the beginning of a sentence.
+ * - sizeip: size of the buffer for initpos.
+ * - lengthwl: number of words in total.
+ * - sizewl: size of the buffer for words.
  * - initpos: an array with all positions of the wordlist that hold initial words.
  * - wordlist: a list with all the words.
  */
 typedef struct ThisMarkov {
-    int initlength;
+    int lengthip; /* the length of initpos[] */
+    int sizeip;
+    int lengthwl;
+    int sizewl;
     int *initpos;
-    Word *wordlist;
+    Word **wordlist;
 } Markov;
 
 Markov *induce_markov(FILE *filedesc);

@@ -38,7 +38,7 @@
 #define BASEBUFFSIZE 8 /* Preferably set it to a power of 2. */
 
  /**
- * \fn size_t append_char(char *token, char appc, int pos, size_t size)
+ * \fn int append_char(char **token, char appc, int pos, int size)
  * \brief Append a char to a token, growing it if necessary. Return the final size
  * of the token in allocated bytes (_not_ the string length).
  *
@@ -52,7 +52,7 @@
  * \note If the character doesn't fit, the buffer will be grown to the double of
  * its current size.
  */
-size_t append_char(char **token, char appc, int pos, size_t size)
+int append_char(char **token, char appc, int pos, int size)
 {
     /* Realloc if necessary. */
     if (pos >= size-1) {
@@ -60,7 +60,7 @@ size_t append_char(char **token, char appc, int pos, size_t size)
                           * power-of-two size will come in handy */
         
         /* getting another pointer to check that the operation was successful. */
-        char *newplace = realloc(*token, size);
+        char *newplace = realloc(*token, sizeof(char) * size);
         if (newplace != NULL) {
             *token = newplace;
         } else { /* this shouldn't have happened!!! */
@@ -78,7 +78,7 @@ size_t append_char(char **token, char appc, int pos, size_t size)
 char *get_next_token(FILE *filedesc, char *endsymb)
 {
     /* get your pointer to allocated memory for your token */
-    size_t current_size = sizeof(char) * BASEBUFFSIZE;
+    int current_size = sizeof(char) * BASEBUFFSIZE;
     char *token = malloc(current_size);
 
     /* this variable is the current position in the token */
@@ -122,7 +122,7 @@ char *get_next_token(FILE *filedesc, char *endsymb)
                 tokenpos++;
         }
     }
-    *endsymb = 0; /* We ran into EOF. */
+    *endsymb = EOF; /* We ran into EOF. */
     if (tokenpos == 0) {
         free(token);
         return 0; /* We've gotten to the end of the file. Empty token. */
