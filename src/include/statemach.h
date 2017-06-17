@@ -62,8 +62,31 @@ typedef struct ThisMarkov {
     Word **wordlist;
 } Markov;
 
+/**
+ * \fn Markov *induce_markov(FILE *filedesc)
+ * \brief Get a markov chain from a file.
+ *
+ * It will return a pointer to a dynamically allocated Markov
+ * struct. You should later free it with free_Markov().
+ *
+ * Do not use free() as it won't free dynamically allocated
+ * members of the Markov struct.
+ *
+ * \param filedesc A FILE.
+ *
+ * \return A pointer to a Markov induced from filedesc.
+ */
 Markov *induce_markov(FILE *filedesc);
 
+/**
+ * \fn void free_Markov(Markov *m)
+ *
+ * \brief Free all dynamically allocated resources used in
+ * the passed Markov struct.
+ *
+ * \param m A pointer to a Markov.
+ *
+ */
 void free_Markov(Markov *m);
 
 #endif

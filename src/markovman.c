@@ -50,7 +50,7 @@
  * \def VERSION
  * \brief String constant holding the current version of Markovman.
  */
-#define VERSION "0.3.0"
+#define VERSION "0.4.0"
 
 int main (void)
 {

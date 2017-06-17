@@ -256,7 +256,7 @@ void free_Word(Word *w)
     free(w);
 }
 
-/* BUILDING THE MARKOV INDUCER. */
+/* externally documented */
 Markov *induce_markov(FILE *filedesc)
 {
     /* this will be our return value. */
@@ -378,6 +378,7 @@ Markov *induce_markov(FILE *filedesc)
     return mrk;
 }
 
+/* externally documented */
 void free_Markov(Markov *m)
 {
     free(m->initpos);
