@@ -274,7 +274,7 @@ Markov *induce_markov(FILE *filedesc)
     Markov *mrk = malloc(sizeof(Markov));
     
     /* initialize some key variables */
-    mrk->wordlist = malloc(sizeof(Word) * BASELEXSIZE);
+    mrk->wordlist = malloc(sizeof(Word*) * BASELEXSIZE);
     mrk->sizewl = BASELEXSIZE;   /* size of the wordlist */
     mrk->lengthwl = 0;          /* the length of the wordlist */
     mrk->initpos = malloc(sizeof(int) * BASEINITWORDS);
@@ -527,7 +527,7 @@ char *generate_sentence(Markov *m)
 
             lastword = pos;
         }
-    } while (!finalsymb(sent[lengthsent-1]));
+    } while (lengthsent <= 0 || !finalsymb(sent[lengthsent-1]));
 
     return sent;
 }
