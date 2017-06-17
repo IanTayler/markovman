@@ -13,7 +13,7 @@
 #include "statemachfull.h"
 #include "lexerfull.h"
 
-#define PLANNED 4
+#define PLANNED 5
 
  int tests_run = 0;
 
@@ -101,6 +101,23 @@ char *lexer_test()
     return 0;
 }
 
+char *induce_test()
+{
+    FILE *fd = fopen("resources/testfile1.txt", "r");
+
+    Markov *markovman = induce_markov(fd);
+
+    mu_assert_running("Wrong number of induced words", markovman->lengthwl == 7, free_Markov(markovman););
+
+    mu_assert_running("Wrong number of initial words", markovman->lengthip == 1, free_Markov(markovman););
+
+    if (fclose(fd) != 0) {
+        fprintf(stderr, "Couldn't properly close file in induce_test\n");
+    }
+
+    return 0;
+}
+
 char *all_tests()
 {
     /* MinUnit tests */
@@ -108,6 +125,7 @@ char *all_tests()
 
     /* lib/statemach.c tests */
     mu_run_test(word_basic_allocation_test);
+    mu_run_test(induce_test);
 
     /* lib/lexer.c tests */
     mu_run_test(append_test);

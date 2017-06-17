@@ -5,3 +5,4 @@ tests
 *.gcda
 *.gcno
 *.gcov
+.vscode

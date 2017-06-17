@@ -60,6 +60,28 @@
 #define BASEINITWORDS 32
 
 /**
+ * \fn int finalsymb(char symb)
+ * \brief Return 1 if symb is a final symbol. 0 if not.
+ *
+ * \param symb The symbol to check.
+ *
+ * \return True (1) or False (0), depending whether or not the
+ * argument is a final symbol.
+ */
+int finalsymb(char symb)
+{
+    switch (symb) {
+        case '.':
+        case '!':
+        case '?':
+            return 1;
+            break; /* being explicit */
+        default:
+            return 0;
+    }
+}
+
+/**
  * \fn int append_int(int **arr, int appi, int pos, int size)
  * \brief Append an int to a dynamically allocated int array, growing it if 
  * necessary. Return the final size of the token in allocated bytes
@@ -227,11 +249,11 @@ Word *new_endsymb(char symb)
  *
  * \param ptr The pointer to deallocate.
  */
-void free_Word(Word *ptr)
+void free_Word(Word *w)
 {
-    free(ptr->freqlist);
-    free(ptr->token);
-    free(ptr);
+    free(w->freqlist);
+    free(w->token);
+    free(w);
 }
 
 /* BUILDING THE MARKOV INDUCER. */
@@ -252,15 +274,16 @@ Markov *induce_markov(FILE *filedesc)
                                    each token */
     char symbols[16];
     int symbols_len = 0;
-
-    int lastword = INITWORD;    /* position in the wordlist where we can find
-                                   the last word. If set to INITWORD (= -1)
-                                   then there is no last word. */
     
     /* We do two passes. The first one gets the word-list, the other
        sets all word transitions. */
-       char *tok;
+    
+    char *tok;
     while (((tok = get_next_token(filedesc, &endsymb)) != NULL) || endsymb != EOF) {
+        if (!tok)
+            continue;
+        
+
         if (findstr(mrk->wordlist, mrk->lengthwl, tok) >= 0) {
             free(tok);
         } else {
@@ -289,12 +312,78 @@ Markov *induce_markov(FILE *filedesc)
         }
     }
 
+    /* initialize to zero and to the correct size all the word's freqlists */
+    for (int i = 0; i < mrk->lengthwl; i++) {
+        mrk->wordlist[i]->freqlist = calloc(mrk->lengthwl, sizeof(int));
+    }
+
     /* rewind the file. We will make another pass */
     rewind(filedesc);
 
-    /* initialize to zero and to the correct size all the word's freqlists */
-    for (int i = 0; i < mrk->lengthwl; i++) {
+    int lastword = INITWORD;    /* position in the wordlist where we can find
+                                   the last word. If set to INITWORD (= -1)
+                                   then there is no last word. */
+    
+    /* go for a second pass. Get the word transitions transitions */
+    while (((tok = get_next_token(filedesc, &endsymb)) != NULL) || endsymb != EOF) {
+        if (!tok)
+            continue;
+        /* where in our wordlist is this token? */
+        int wordplace = findstr(mrk->wordlist, mrk->lengthwl, tok);
 
+        /* where in our wordlist is the token corresponding to
+           the endsymb? */
+        char symbstr[2]; symbstr[0] = endsymb; symbstr[1] = 0;
+        int symbplace = findstr(mrk->wordlist, mrk->lengthwl, symbstr);
+
+        /* if the word isn't there, there's been an error */
+        if (wordplace == -1) {
+            fprintf(stderr, "Error reading file in the second pass.\n");
+            continue;
+        }
+
+        /* initial words are to be treated differently. We add them to a
+           seperate list of words. */
+        if (lastword == INITWORD) {
+            mrk->sizeip = append_int(
+                            &(mrk->initpos),
+                            wordplace,
+                            mrk->lengthip,
+                            mrk->sizeip
+                          );
+            
+            mrk->lengthip++;
+        } else { /* non-initial words */
+            /* increment the transition freq from lastword to this word */
+            (mrk->wordlist[lastword])->freqlist[wordplace]++;
+        }
+
+        /* if we can find the symbol, that's the lastword, unless it's a final symb.
+           If not, the word is the lastword. */
+        if (symbplace != -1) {
+            /* increment transition from this word to the end symbol */
+            (mrk->wordlist[wordplace])->freqlist[symbplace]++;
+            if (finalsymb(endsymb)) {
+                lastword = INITWORD;
+            } else {
+                lastword = symbplace;
+            }
+        } else {
+            lastword = wordplace;
+        }
+        /* go for another iteration */
     }
+
+    /* return the pointer to the Markov we've been building */
     return mrk;
+}
+
+void free_Markov(Markov *m)
+{
+    free(m->initpos);
+    for (int i = 0; i < m->lengthwl; i++) {
+        free_Word(m->wordlist[i]);
+    }
+    free(m->wordlist);
+    free(m);
 }

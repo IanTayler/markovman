@@ -14,16 +14,22 @@
 #define BASEINITWORDS 32
 
 typedef struct ThisWord {
+    int isendsymb;
     char *token;
     int *freqlist;
 } Word;
 
 typedef struct ThisMarkov {
-    int initlength;
+    int lengthip; /* the length of initpos[] */
+    int sizeip;
+    int lengthwl;
+    int sizewl;
     int *initpos;
-    Word *wordlist;
+    Word **wordlist;
 } Markov;
 
 Markov *induce_markov(FILE *filedesc);
+
+void free_Markov(Markov *m);
 
 #endif

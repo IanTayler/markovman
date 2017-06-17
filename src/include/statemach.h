@@ -64,4 +64,6 @@ typedef struct ThisMarkov {
 
 Markov *induce_markov(FILE *filedesc);
 
+void free_Markov(Markov *m);
+
 #endif
